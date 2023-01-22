@@ -1,0 +1,164 @@
+### VARIABLES ###
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term foot --title Terminal
+set $menu rofi -show drun
+set $editor foot --title NEOVIM -e nvim
+set $gnome-schema org.gnome.desktop.interface
+
+
+
+### SCRATCHPADS ###
+exec kitty --title FILE_MANAGER -e ranger
+set $filemn kitty --title FILE_MANAGER -e ranger
+for_window [title="FILE_MANAGER"] move to scratchpad, resize set 850 650, move absolute position 16 56
+bindsym $mod+r exec swaymsg [title="FILE_MANAGER"] scratchpad show || exec $filemn 
+
+
+set $music foot --title MUSIC_PLAYER -e ncmpcpp
+for_window [title="MUSIC_PLAYER"] move to scratchpad, resize set 600 500, move absolute position 1304 56
+bindsym $mod+Shift+p exec swaymsg [title="MUSIC_PLAYER"] scratchpad show || exec $music 
+
+
+### OUTPUT CONFIGURATION ###
+output * bg ~/Pictures/Wallpapers/Other/01.png fill
+#output * bg ~/Pictures/Wallpapers/Earth/11.png fill
+
+default_border pixel 5
+gaps inner 8
+
+client.focused #252636 #252636 #252636 #252636 #252636 
+client.unfocused #161721 #161721 #161721 #161721 #161721
+client.focused_inactive #161721 #161721 #161721 #161721 #161721 
+
+
+
+### IDLE CONFIGURATION ###
+exec swayidle -w \
+         timeout 300 'swaymsg "output * dpms off"' \
+	 resume 'swaymsg "output * dpms on"' \
+
+
+
+### KEY BINDINGS ###
+
+## Basics ##
+    bindsym $mod+Return exec $term
+    bindsym $mod+Shift+Return exec $editor
+    bindsym $mod+q kill
+    bindsym $mod+d exec $menu
+    floating_modifier $mod normal
+    bindsym $mod+alt+r reload
+    bindsym $mod+alt+q exec swaynag -t warning -m 'Exit?' -B 'Yes' 'swaymsg exit'
+
+
+## Moving around ##
+
+    # Change focus between window #
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+
+    # Change focus between window with arrows #
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # Move the focused window #
+    bindsym $mod+Control+$left move left
+    bindsym $mod+Control+$down move down
+    bindsym $mod+Control+$up move up
+    bindsym $mod+Control+$right move right
+
+    # Move the focused window with arrows #
+    bindsym $mod+Control+Left move left
+    bindsym $mod+Control+Down move down
+    bindsym $mod+Control+Up move up
+    bindsym $mod+Control+Right move right
+
+
+## Workspaces ##
+
+    # Switch to workspace #
+    bindsym $mod+1 workspace number 1
+    bindsym $mod+2 workspace number 2
+    bindsym $mod+3 workspace number 3
+    bindsym $mod+4 workspace number 4
+    bindsym $mod+5 workspace number 5
+    bindsym $mod+6 workspace number 6
+    bindsym $mod+7 workspace number 7
+    bindsym $mod+8 workspace number 8
+    bindsym $mod+9 workspace number 9
+    bindsym $mod+0 workspace number 10
+
+    # Move focused window to workspace #
+    bindsym $mod+Shift+1 move container to workspace number 1
+    bindsym $mod+Shift+2 move container to workspace number 2
+    bindsym $mod+Shift+3 move container to workspace number 3
+    bindsym $mod+Shift+4 move container to workspace number 4
+    bindsym $mod+Shift+5 move container to workspace number 5
+    bindsym $mod+Shift+6 move container to workspace number 6
+    bindsym $mod+Shift+7 move container to workspace number 7
+    bindsym $mod+Shift+8 move container to workspace number 8
+    bindsym $mod+Shift+9 move container to workspace number 9
+    bindsym $mod+Shift+0 move container to workspace number 10
+
+
+## Layout stuff ##
+
+    # Switch the current window between different layout styles #
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current window fullscreen #
+    bindsym $mod+f fullscreen
+
+    # Toggle the current window between tiling and floating mode #
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area #
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container #
+    bindsym $mod+a focus parent
+
+
+## Resizing windows ##
+
+    # Resize windows #
+    bindsym $mod+Shift+$right resize shrink width 10px
+    bindsym $mod+Shift+$up resize grow height 10px
+    bindsym $mod+Shift+$down resize shrink height 10px
+    bindsym $mod+Shift+$left resize grow width 10px
+
+    # Resize windows with arrows #
+    bindsym $mod+Shift+Right resize shrink width 10px
+    bindsym $mod+Shift+Up resize grow height 10px
+    bindsym $mod+Shift+Down resize shrink height 10px
+    bindsym $mod+Shift+Left resize grow width 10px
+
+
+
+### TOPBAR ###
+bar {
+	bar swaybar_command waybar
+}
+
+
+
+### AUTOSTART ###
+exec_always autotiling
+exec "/usr/libexec/polkit-gnome-authentication-agent-1"
+exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec_always {
+    gsettings set $gnome-schema cursor-theme 'Material Cursors'
+}
+
+
+include /etc/sway/config.d/*
