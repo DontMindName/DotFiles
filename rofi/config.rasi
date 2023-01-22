@@ -1,0 +1,59 @@
+configuration {
+ display-drun: "Search:";
+ drun-display-format: "{icon} {name}";
+ font: "JetBrains Mono Nerd Font Medium 10";
+ show-icons: true;
+ icon-theme: "Papirus";
+}
+
+@theme "/dev/null"
+
+* {
+ bg: #272732;
+ bga: #2A2A37;
+ fg: #DCD7BA;
+ fga: #727169;
+ background-color: @bg;
+}
+
+window {
+ padding: 20;
+ width: 30%;
+}
+
+prompt {
+ padding: 7;
+ text-color: @fg;
+ font: "JetBrains Mono Nerd Font Bold 12";
+}
+
+entry {
+ vertical-align: 0.5;
+ text-color: @fg;
+}
+
+element {
+ padding: 10;
+ text-color: @fga;
+}
+
+element-text {
+ text-color: inherit;
+ vertical-align: 0.5;
+}
+
+element-icon {
+ vertical-align: 0.5;
+ size: 28;
+}
+
+element selected {
+ text-color: @fg;
+}
+
+listview {
+ columns: 2;
+ lines: 6;
+}
+
+
